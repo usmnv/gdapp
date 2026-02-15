@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Golden Dragon</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: var(--tg-theme-bg-color, #ffffff);
+            --text-color: var(--tg-theme-text-color, #000000);
+            --hint-color: var(--tg-theme-hint-color, #999999);
+            --button-color: var(--tg-theme-button-color, #40a7e3);
+            --button-text-color: var(--tg-theme-button-text-color, #ffffff);
+            --secondary-bg-color: var(--tg-theme-secondary-bg-color, #f4f4f5);
+            --accent-color: #d4af37;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 16px;
+            padding-bottom: 80px;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .customer-code {
+            background: var(--secondary-bg-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .card {
+            background-color: var(--secondary-bg-color);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .stats-grid {
+            display: flex;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        .stat-item {
+            flex: 1;
+            background: var(--bg-color);
+            border-radius: 16px;
+            padding: 16px 8px;
+            text-align: center;
+        }
+        .stat-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        .stat-value {
+            font-size: 22px;
+            font-weight: 700;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: var(--hint-color);
+        }
+        .button {
+            background-color: var(--button-color);
+            color: var(--button-text-color);
+            border: none;
+            border-radius: 14px;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            margin-top: 16px;
+        }
+        .button:hover {
+            opacity: 0.9;
+        }
+        .currency-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+        .currency-table th {
+            text-align: left;
+            padding: 12px 8px;
+            color: var(--hint-color);
+            font-weight: 500;
+            font-size: 14px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .currency-table td {
+            padding: 12px 8px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .currency-flag {
+            font-size: 20px;
+            margin-right: 8px;
+        }
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--bg-color);
+            border-top: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 12px;
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--hint-color);
+            font-size: 12px;
+            cursor: pointer;
+            transition: color 0.2s;
+            flex: 1;
+        }
+        .tab-item.active {
+            color: var(--button-color);
+        }
+        .tab-icon {
+            font-size: 24px;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .service-card {
+            background: var(--secondary-bg-color);
+            border-radius: 16px;
+            padding: 16px;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .service-card:active {
+            transform: scale(0.98);
+        }
+        .service-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+        .service-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .service-desc {
+            font-size: 13px;
+            color: var(--hint-color);
+        }
+        .input-group {
+            margin-bottom: 16px;
+        }
+        .input-label {
+            display: block;
+            font-size: 14px;
+            color: var(--hint-color);
+            margin-bottom: 6px;
+        }
+        .input-field, .input-select {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 16px;
+            font-size: 16px;
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+        .input-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'><polyline points='6 9 12 15 18 9'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+        }
+        .converter-block {
+            background: var(--secondary-bg-color);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 16px;
+        }
+        .converter-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .converter-amount {
+            flex: 2;
+        }
+        .converter-currency {
+            flex: 1;
+        }
+        .converter-equal {
+            text-align: center;
+            font-size: 20px;
+            color: var(--hint-color);
+            margin: 8px 0;
+        }
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .profile-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            background: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+        }
+        .profile-info h2 {
+            font-size: 22px;
+            font-weight: 600;
+        }
+        .profile-info p {
+            color: var(--hint-color);
+        }
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .profile-grid-item {
+            background: var(--secondary-bg-color);
+            border-radius: 16px;
+            padding: 16px 8px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .profile-grid-item i {
+            font-size: 24px;
+            color: var(--accent-color);
+            margin-bottom: 8px;
+        }
+        .profile-grid-item span {
+            display: block;
+            font-weight: 600;
+        }
+        .profile-menu-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background: var(--secondary-bg-color);
+            border-radius: 16px;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+        .profile-menu-item i {
+            width: 24px;
+            font-size: 18px;
+            color: var(--accent-color);
+            margin-right: 16px;
+        }
+        .support-section {
+            margin-top: 24px;
+        }
+        .support-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            color: var(--button-color);
+            font-weight: 600;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .page-content {
+            display: none;
+        }
+        .page-content.active {
+            display: block;
+        }
+        .currency-switch {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .currency-switch button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 30px;
+            background: var(--secondary-bg-color);
+            color: var(--text-color);
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .currency-switch button.active {
+            background: var(--button-color);
+            color: var(--button-text-color);
+        }
+        .avatar-selector {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .avatar-option {
+            width: 70px;
+            height: 70px;
+            border-radius: 35px;
+            background: var(--secondary-bg-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            cursor: pointer;
+            border: 3px solid transparent;
+        }
+        .avatar-option.selected {
+            border-color: var(--button-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐉 Golden Dragon</h1>
+            <div class="customer-code" id="customerCode">GD-1234</div>
+        </div>
+
+        <!-- Главная -->
+        <div id="homeTab" class="tab-content active">
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <span style="font-size: 20px; font-weight: 600;" id="greeting">👋 Привет, Клиент!</span>
+                    <span style="color: var(--hint-color);">Баланс: <strong id="balance">12500 ₽</strong></span>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-icon">📦</div>
+                        <div class="stat-value" id="ordersCount">3</div>
+                        <div class="stat-label">Заказы</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-value" id="deliveredCount">1</div>
+                        <div class="stat-label">Доставлено</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-value" id="usdRate">95</div>
+                        <div class="stat-label">USD</div>
+                    </div>
+                </div>
+                <button class="button" id="myOrdersBtn">📋 Мои заказы</button>
+            </div>
+            <div class="card">
+                <div class="card-title">💱 Курс валют</div>
+                <table class="currency-table">
+                    <thead><tr><th>Валюта</th><th>Покупка</th><th>Продажа</th></tr></thead>
+                    <tbody id="currencyRatesTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Услуги (меню) -->
+        <div id="servicesTab" class="tab-content">
+            <h2 style="margin-bottom: 16px;">🚚 Наши услуги</h2>
+            <div class="services-grid" id="servicesGrid"></div>
+        </div>
+
+        <!-- Калькулятор -->
+        <div id="calcTab" class="tab-content">
+            <h2 style="margin-bottom: 16px;">🧮 Калькулятор</h2>
+            <div class="card">
+                <div class="input-group">
+                    <label class="input-label">Страна доставки</label>
+                    <select class="input-select" id="deliveryCountry">
+                        <option value="ru">Россия</option>
+                        <option value="tj">Таджикистан</option>
+                        <option value="kz">Казахстан</option>
+                        <option value="uz">Узбекистан</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Тип товара</label>
+                    <select class="input-select" id="goodsType">
+                        <option value="1.0">Обычный (1.0x)</option>
+                        <option value="1.2">Хрупкий (1.2x)</option>
+                        <option value="0.9">Одежда (0.9x)</option>
+                        <option value="1.5">Электроника (1.5x)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Вес (кг)</label>
+                    <input type="number" class="input-field" id="weight" value="5" step="0.1">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Объём (м³) - необязательно</label>
+                    <input type="number" class="input-field" id="volume" step="0.01">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Способ доставки</label>
+                    <select class="input-select" id="deliveryMethod">
+                        <option value="avia">Авиа</option>
+                        <option value="auto">Авто</option>
+                        <option value="rail">Ж/Д</option>
+                    </select>
+                </div>
+                <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+                    <input type="checkbox" id="insurance"> <span>Страховка (+5$)</span>
+                </label>
+                <button class="button" onclick="calculateDelivery()">Рассчитать</button>
+                <div id="calcResult" style="margin-top: 20px; font-size: 20px; font-weight: 700; text-align: center;"></div>
+            </div>
+        </div>
+
+        <!-- Валюта (таблица и конвертер) -->
+        <div id="currencyTab" class="tab-content">
+            <div class="currency-switch">
+                <button id="showRatesBtn" class="active">Валюты</button>
+                <button id="showConverterBtn">Конвертер</button>
+            </div>
+            <div id="ratesSection">
+                <div class="card" style="max-height: 400px; overflow-y: auto;">
+                    <table class="currency-table">
+                        <thead><tr><th>Валюта</th><th>Покупка</th><th>Продажа</th></tr></thead>
+                        <tbody id="allRatesTable"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="converterSection" style="display: none;">
+                <div class="converter-block">
+                    <div class="converter-row">
+                        <div class="converter-amount">
+                            <label class="input-label">У вас есть</label>
+                            <input type="number" id="fromAmount" class="input-field" value="1" step="0.01">
+                        </div>
+                        <div class="converter-currency">
+                            <label class="input-label">Валюта</label>
+                            <select id="fromCurrency" class="input-select"></select>
+                        </div>
+                    </div>
+                    <div class="converter-equal">≈</div>
+                    <div class="converter-row">
+                        <div class="converter-amount">
+                            <label class="input-label">У вас будет</label>
+                            <input type="number" id="toAmount" class="input-field" readonly value="0">
+                        </div>
+                        <div class="converter-currency">
+                            <label class="input-label">Валюта</label>
+                            <select id="toCurrency" class="input-select"></select>
+                        </div>
+                    </div>
+                    <p id="converterRate" style="text-align: center; margin-top: 16px; color: var(--hint-color);"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Профиль с внутренними страницами -->
+        <div id="profileTab" class="tab-content">
+            <!-- Меню профиля -->
+            <div id="profileMenu" class="page-content active">
+                <div class="profile-header">
+                    <div class="profile-avatar" id="profileAvatar">👤</div>
+                    <div class="profile-info">
+                        <h2 id="profileName">usmnv</h2>
+                        <p id="profileCode">1180975</p>
+                    </div>
+                </div>
+                <div class="profile-grid">
+                    <div class="profile-grid-item" data-page="orders"><i class="fas fa-box"></i><span>Заказы</span></div>
+                    <div class="profile-grid-item" data-page="history"><i class="fas fa-history"></i><span>История</span></div>
+                    <div class="profile-grid-item" data-page="account"><i class="fas fa-wallet"></i><span>Счет</span></div>
+                </div>
+                <div class="profile-menu-item" data-page="pickup"><i class="fas fa-map-marker-alt"></i> Пункты выдачи</div>
+                <div class="profile-menu-item" data-page="calculator"><i class="fas fa-calculator"></i> Калькулятор</div>
+                <div class="profile-menu-item" data-page="settings"><i class="fas fa-cog"></i> Настройки</div>
+                <div class="support-section">
+                    <div class="support-title">Центр поддержки</div>
+                    <div class="profile-menu-item" data-page="contact"><i class="fas fa-headset"></i> Связаться с нами</div>
+                    <div class="profile-menu-item" data-page="prohibited"><i class="fas fa-ban"></i> Запрещенные предметы</div>
+                </div>
+            </div>
+
+            <!-- Страницы профиля -->
+            <div id="ordersPage" class="page-content">
+                <div class="back-button" onclick="showProfileMenu()"><i class="fas fa-arrow-left"></i> Назад</div>
+                <h2>📦 Мои заказы</h2>
+                <div class="card">Здесь будет список ваших заказов (подключается к бекенду).</div>
+            </div>
+            <div id="historyPage" class="page-content">
+                <div class="back-button" onclick="showProfileMenu()"><i class="fas fa-arrow-left"></i> Назад</div>
+                <h2>📊 История операций</h2>
+                <div class="card">Здесь будет история пополнений и платежей.</div>
+            </div>
+            <div id="accountPage" class="page-content">
+                <div class="back-button" onclick="showProfileMenu()"><i class="fas fa-arrow-left"></i> Назад</div>
+                <h2>💰 Счет</h2>
+                <div class="card">Текущий баланс: <strong id="accountBalance">12500 ₽</strong></div>
+            </div>
+            <div id="pickupPage" class="page-content">
+                <div class="back-button" onclick="showProfileMenu()"><i class="fas fa-arrow-left"></i> Назад</div>
+                <h2>📍 Пункты выдачи</h2>
+                <div id="pickupList" class="card"></div>
+            </div>
+            <div id="calculatorPage" class="page-content">
+                <div class="back-button" onclick="showProfileMenu()"><i class="fas fa-arrow-left"></i> Назад</div>
+                <h2>🧮 Калькулятор</h2>
+                <div class="card">(Перенаправление на вкладку калькулятора)</div>
+            </div>
+            <div id="settingsPage" class="page-content">
+                <div class="back-button" onclick="showProfileMenu()"><i class="fas fa-arrow-left"></i> Назад</div>
+                <h2>⚙️ Настройки</h2>
+                <div class="card">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <div class="profile-avatar" id="settingsAvatar" style="width: 80px; height: 80px; font-size: 40px; margin: 0 auto;">👤</div>
+                        <div class="avatar-selector">
+                            <div class="avatar-option" data-avatar="👤" onclick="selectAvatar('👤')">👤</div>
+                            <div class="avatar-option" data-avatar="🐱" onclick="selectAvatar('🐱')">🐱</div>
+                            <div class="avatar-option" data-avatar="🦊" onclick="selectAvatar('🦊')">🦊</div>
+                            <div class="avatar-option" data-avatar="🐼" onclick="selectAvatar('🐼')">🐼</div>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Имя</label>
+                        <input type="text" id="settingsName" class="input-field" value="usmnv">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Номер телефона</label>
+                        <input type="tel" id="settingsPhone" class="input-field" value="+7 999 123 45 67" placeholder="Введите номер">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Регион (страна)</label>
+                        <select id="settingsCountry" class="input-select">
+                            <option value="ru">Россия</option>
+                            <option value="tj">Таджикистан</option>
+                            <option value="kz">Казахстан</option>
+                            <option value="uz">Узбекистан</option>
+                        </select>
+                    </div>
+                    <button class="button" onclick="saveSettings()">Сохранить</button>
+                </div>
+            </div>
+            <div id="contactPage" class="page-content">
+                <div class="back-button" onclick="showProfileMenu()"><i class="fas fa-arrow-left"></i> Назад</div>
+                <h2>📞 Связаться с нами</h2>
+                <div class="card" id="contactInfo"></div>
+            </div>
+            <div id="prohibitedPage" class="page-content">
+                <div class="back-button" onclick="showProfileMenu()"><i class="fas fa-arrow-left"></i> Назад</div>
+                <h2>🚫 Запрещенные предметы</h2>
+                <div class="card" id="prohibitedList"></div>
+            </div>
+            <!-- Страницы для услуг -->
+            <div id="serviceDetailPage" class="page-content">
+                <div class="back-button" onclick="showServicesMenu()"><i class="fas fa-arrow-left"></i> Назад к услугам</div>
+                <h2 id="serviceDetailTitle"></h2>
+                <div class="card" id="serviceDetailDesc"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Нижняя навигация -->
+    <div class="tab-bar">
+        <div class="tab-item active" data-tab="home"><span class="tab-icon">🏠</span><span>Главная</span></div>
+        <div class="tab-item" data-tab="services"><span class="tab-icon">📦</span><span>Услуги</span></div>
+        <div class="tab-item" data-tab="calc"><span class="tab-icon">🧮</span><span>Калькулятор</span></div>
+        <div class="tab-item" data-tab="currency"><span class="tab-icon">💱</span><span>Валюта</span></div>
+        <div class="tab-item" data-tab="profile"><span class="tab-icon">👤</span><span>Профиль</span></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Telegram Web App
+            if (window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.expand();
+                Telegram.WebApp.ready();
+            }
+
+            // ---------- Данные пользователя (из localStorage или по умолчанию) ----------
+            let userData = {
+                firstName: localStorage.getItem('userName') || 'Клиент',
+                customerCode: 'GD-1234',
+                balance: 12500,
+                ordersCount: 3,
+                deliveredCount: 1,
+                avatar: localStorage.getItem('userAvatar') || '👤',
+                phone: localStorage.getItem('userPhone') || '+7 999 123 45 67',
+                country: localStorage.getItem('userCountry') || 'ru'
+            };
+
+            // ---------- Валюты ----------
+            const mainCurrencies = [
+                { code: 'USD', flag: '🇺🇸', name: 'USD', buy: 9.39, sell: 9.48 },
+                { code: 'RUB', flag: '🇷🇺', name: 'RUB', buy: 0.1212, sell: 0.1236 },
+                { code: 'CNY', flag: '🇨🇳', name: 'CNY', buy: 1.3369, sell: 1.3992 }
+            ];
+            const allCurrencies = [
+                { code: 'USD', flag: '🇺🇸', name: 'USD', buy: 9.39, sell: 9.48 },
+                { code: 'EUR', flag: '🇪🇺', name: 'EUR', buy: 11.02, sell: 11.24 },
+                { code: 'CNY', flag: '🇨🇳', name: 'CNY', buy: 1.3369, sell: 1.3992 },
+                { code: 'RUB', flag: '🇷🇺', name: 'RUB', buy: 0.1212, sell: 0.1236 },
+                { code: 'KZT', flag: '🇰🇿', name: 'KZT', buy: 0.1866, sell: 0.1953 },
+                { code: 'UZS', flag: '🇺🇿', name: 'UZS', buy: 0.075, sell: 0.0785 },
+                { code: 'TJS', flag: '🇹🇯', name: 'TJS', buy: 8.5, sell: 8.7 }
+            ];
+
+            // ---------- Услуги ----------
+            const services = [
+                { icon: '✈️', title: 'Авиа доставка', desc: 'Быстро и надёжно', fullDesc: 'Авиаперевозка грузов от 3 до 7 дней. Подходит для срочных отправлений. Отслеживание по номеру накладной.' },
+                { icon: '🚛', title: 'Авто карго', desc: 'Оптимально по цене', fullDesc: 'Автомобильные перевозки от 14 до 21 дня. Экономичный вариант для крупных партий. Возможна доставка "от двери до двери".' },
+                { icon: '🚢', title: 'Морская доставка', desc: 'Для больших объёмов', fullDesc: 'Морские контейнерные перевозки от 30 дней. Идеально для крупных партий товаров. Консолидация грузов в порту.' },
+                { icon: '🚆', title: 'ЖД доставка', desc: 'Стабильно и выгодно', fullDesc: 'Железнодорожные перевозки от 10 до 15 дней. Стабильные сроки и фиксированная стоимость.' },
+                { icon: '📄', title: 'Белая доставка', desc: 'С официальной документацией', fullDesc: 'Полное таможенное оформление, все документы предоставляются. Работаем с юридическими лицами.' },
+                { icon: '📦', title: 'Фулфилмент', desc: 'Хранение и комплектация', fullDesc: 'Приём, хранение, упаковка и отправка заказов под ключ. Интеграция с маркетплейсами.' },
+                { icon: '⚡', title: 'Экспресс доставка', desc: 'Документов', fullDesc: 'Срочная доставка документов и мелких грузов (1-2 дня). Курьерская служба.' },
+                { icon: '💸', title: 'Трансфер средств', desc: 'Оплата поставщикам', fullDesc: 'Переводы поставщикам в Китае, комиссия 1%. Быстрые и безопасные транзакции.' },
+                { icon: '🏭', title: 'Склад в Иу', desc: 'Приём и хранение грузов', fullDesc: 'Бесплатное хранение до 5 дней, приёмка и консолидация грузов. Фотоотчёт по запросу.' },
+                { icon: '🛒', title: 'Выкуп товаров', desc: '1688 / Alibaba / Taobao', fullDesc: 'Помощь в выкупе товаров с китайских площадок. Проверка поставщиков.' },
+                { icon: '📦✨', title: 'Упаковка', desc: 'Фото и видео отчёт', fullDesc: 'Профессиональная упаковка, фото- и видеофиксация перед отправкой.' },
+                { icon: '🔍', title: 'Отслеживание и контроль', desc: 'Полный контроль над грузом', fullDesc: 'Online‑отслеживание на всех этапах доставки. Уведомления об изменении статуса.' }
+            ];
+
+            // ---------- Пункты выдачи ----------
+            const pickupPoints = {
+                ru: ['Москва, ул. Тверская, 1', 'Санкт-Петербург, Невский пр., 22', 'Новосибирск, Красный пр., 50'],
+                tj: ['Душанбе, пр. Рудаки, 10', 'Худжанд, ул. Ленина, 5'],
+                kz: ['Алматы, пр. Абая, 100', 'Нур-Султан, ул. Кабанбай батыра, 15'],
+                uz: ['Ташкент, ул. Амира Темура, 30', 'Самарканд, ул. Регистан, 2']
+            };
+
+            // ---------- Контакты ----------
+            const contacts = {
+                phone: '+7 (800) 123-45-67',
+                email: 'support@golden-dragon.com',
+                workTime: 'Пн-Пт 9:00-21:00 МСК',
+                chat: '@goldendragon_support'
+            };
+
+            // ---------- Запрещённые предметы ----------
+            const prohibitedItems = [
+                'Оружие и боеприпасы',
+                'Наркотические вещества',
+                'Взрывчатые вещества',
+                'Ядовитые и радиоактивные материалы',
+                'Драгоценные металлы в слитках',
+                'Живые животные (кроме исключений)',
+                'Скоропортящиеся продукты без упаковки',
+                'Алкоголь и табак сверх нормы',
+                'Лекарства без рецепта',
+                'Деньги и ценные бумаги'
+            ];
+
+            // ---------- Элементы интерфейса ----------
+            const customerCodeEl = document.getElementById('customerCode');
+            const greetingEl = document.getElementById('greeting');
+            const balanceEl = document.getElementById('balance');
+            const ordersCountEl = document.getElementById('ordersCount');
+            const deliveredCountEl = document.getElementById('deliveredCount');
+            const profileNameEl = document.getElementById('profileName');
+            const profileCodeEl = document.getElementById('profileCode');
+            const profileAvatarEl = document.getElementById('profileAvatar');
+            const settingsAvatarEl = document.getElementById('settingsAvatar');
+            const accountBalanceEl = document.getElementById('accountBalance');
+            const settingsNameEl = document.getElementById('settingsName');
+            const settingsPhoneEl = document.getElementById('settingsPhone');
+            const settingsCountryEl = document.getElementById('settingsCountry');
+
+            function updateUserUI() {
+                if (greetingEl) greetingEl.innerHTML = `👋 Привет, ${userData.firstName}!`;
+                if (customerCodeEl) customerCodeEl.innerText = userData.customerCode;
+                if (balanceEl) balanceEl.innerText = userData.balance + ' ₽';
+                if (ordersCountEl) ordersCountEl.innerText = userData.ordersCount;
+                if (deliveredCountEl) deliveredCountEl.innerText = userData.deliveredCount;
+                if (profileNameEl) profileNameEl.innerText = userData.firstName;
+                if (profileCodeEl) profileCodeEl.innerText = userData.customerCode;
+                if (profileAvatarEl) profileAvatarEl.innerText = userData.avatar;
+                if (settingsAvatarEl) settingsAvatarEl.innerText = userData.avatar;
+                if (accountBalanceEl) accountBalanceEl.innerText = userData.balance + ' ₽';
+                if (settingsNameEl) settingsNameEl.value = userData.firstName;
+                if (settingsPhoneEl) settingsPhoneEl.value = userData.phone;
+                if (settingsCountryEl) settingsCountryEl.value = userData.country;
+
+                document.querySelectorAll('.avatar-option').forEach(opt => {
+                    if (opt.dataset.avatar === userData.avatar) {
+                        opt.classList.add('selected');
+                    } else {
+                        opt.classList.remove('selected');
+                    }
+                });
+            }
+
+            // ---------- Рендер валютных таблиц ----------
+            function renderCurrencyTables() {
+                const ratesTable = document.getElementById('currencyRatesTable');
+                if (ratesTable) {
+                    ratesTable.innerHTML = mainCurrencies.map(c => 
+                        `<tr><td><span class="currency-flag">${c.flag}</span> ${c.name}</td><td>${c.buy}</td><td>${c.sell}</td></tr>`
+                    ).join('');
+                }
+
+                const allRatesTable = document.getElementById('allRatesTable');
+                if (allRatesTable) {
+                    allRatesTable.innerHTML = allCurrencies.map(c => 
+                        `<tr><td><span class="currency-flag">${c.flag}</span> ${c.name}</td><td>${c.buy}</td><td>${c.sell}</td></tr>`
+                    ).join('');
+                }
+
+                const fromSelect = document.getElementById('fromCurrency');
+                const toSelect = document.getElementById('toCurrency');
+                if (fromSelect && toSelect) {
+                    fromSelect.innerHTML = allCurrencies.map(c => 
+                        `<option value="${c.sell}" data-code="${c.code}">${c.flag} ${c.code}</option>`
+                    ).join('');
+                    toSelect.innerHTML = allCurrencies.map(c => 
+                        `<option value="${c.sell}" data-code="${c.code}">${c.flag} ${c.code}</option>`
+                    ).join('');
+                    fromSelect.value = allCurrencies.find(c => c.code === 'USD').sell;
+                    toSelect.value = allCurrencies.find(c => c.code === 'EUR').sell;
+                    updateConverter();
+                }
+            }
+
+            // ---------- Заполнение услуг ----------
+            const servicesGrid = document.getElementById('servicesGrid');
+            if (servicesGrid) {
+                services.forEach(s => {
+                    const card = document.createElement('div');
+                    card.className = 'service-card';
+                    card.innerHTML = `
+                        <div class="service-icon">${s.icon}</div>
+                        <div class="service-title">${s.title}</div>
+                        <div class="service-desc">${s.desc}</div>
+                    `;
+                    card.addEventListener('click', () => {
+                        showServiceDetail(s.title, s.fullDesc);
+                    });
+                    servicesGrid.appendChild(card);
+                });
+            }
+
+            // ---------- Функции для показа детальной страницы услуги ----------
+            window.showServicesMenu = function() {
+                document.querySelectorAll('#profileTab .page-content').forEach(p => p.classList.remove('active'));
+                document.getElementById('profileMenu').classList.add('active');
+                // Если мы на вкладке услуг, вернуться в меню услуг
+                if (document.getElementById('servicesTab').classList.contains('active')) {
+                    // Ничего не делаем, мы уже в услугах
+                } else {
+                    // Переключаемся на вкладку услуг
+                    document.querySelector('.tab-item[data-tab="services"]').click();
+                }
+            };
+
+            window.showServiceDetail = function(title, desc) {
+                // Переключаемся на вкладку профиля, чтобы показать страницу детали услуги
+                document.querySelector('.tab-item[data-tab="profile"]').click();
+                document.querySelectorAll('#profileTab .page-content').forEach(p => p.classList.remove('active'));
+                const detailPage = document.getElementById('serviceDetailPage');
+                if (detailPage) {
+                    detailPage.classList.add('active');
+                    document.getElementById('serviceDetailTitle').innerText = title;
+                    document.getElementById('serviceDetailDesc').innerText = desc;
+                }
+            };
+
+            // ---------- Переключение табов ----------
+            const tabs = document.querySelectorAll('.tab-item');
+            const contents = {
+                home: document.getElementById('homeTab'),
+                services: document.getElementById('servicesTab'),
+                calc: document.getElementById('calcTab'),
+                currency: document.getElementById('currencyTab'),
+                profile: document.getElementById('profileTab')
+            };
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.dataset.tab;
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    Object.values(contents).forEach(c => {
+                        if (c) c.classList.remove('active');
+                    });
+                    if (contents[tabId]) contents[tabId].classList.add('active');
+                    if (tabId === 'profile') showProfileMenu();
+                });
+            });
+
+            // ---------- Управление страницами профиля ----------
+            window.showProfileMenu = function() {
+                document.querySelectorAll('#profileTab .page-content').forEach(p => p.classList.remove('active'));
+                const profileMenu = document.getElementById('profileMenu');
+                if (profileMenu) profileMenu.classList.add('active');
+            };
+
+            window.showProfilePage = function(pageId) {
+                document.querySelectorAll('#profileTab .page-content').forEach(p => p.classList.remove('active'));
+                const page = document.getElementById(pageId);
+                if (page) page.classList.add('active');
+            };
+
+            // Клики по пунктам профиля
+            document.querySelectorAll('[data-page]').forEach(el => {
+                el.addEventListener('click', function(e) {
+                    const page = this.dataset.page;
+                    if (page === 'calculator') {
+                        document.querySelector('.tab-item[data-tab="calc"]').click();
+                        return;
+                    }
+                    showProfilePage(page + 'Page');
+                    // Загрузка данных для страниц
+                    if (page === 'pickup') {
+                        const country = userData.country;
+                        const points = pickupPoints[country] || pickupPoints.ru;
+                        const list = document.getElementById('pickupList');
+                        if (list) list.innerHTML = points.map(p => `<div>📍 ${p}</div>`).join('');
+                    } else if (page === 'contact') {
+                        const info = document.getElementById('contactInfo');
+                        if (info) {
+                            info.innerHTML = `
+                                📞 Телефон: ${contacts.phone}<br>
+                                📧 Email: ${contacts.email}<br>
+                                ⏰ Время работы: ${contacts.workTime}<br>
+                                💬 Чат: ${contacts.chat}
+                            `;
+                        }
+                    } else if (page === 'prohibited') {
+                        const list = document.getElementById('prohibitedList');
+                        if (list) list.innerHTML = prohibitedItems.map(item => `<div>🚫 ${item}</div>`).join('');
+                    }
+                });
+            });
+
+            // ---------- Кнопка "Мои заказы" ----------
+            const myOrdersBtn = document.getElementById('myOrdersBtn');
+            if (myOrdersBtn) {
+                myOrdersBtn.addEventListener('click', function() {
+                    document.querySelector('.tab-item[data-tab="profile"]').click();
+                    showProfilePage('ordersPage');
+                });
+            }
+
+            // ---------- Переключение внутри валют ----------
+            const showRatesBtn = document.getElementById('showRatesBtn');
+            const showConverterBtn = document.getElementById('showConverterBtn');
+            const ratesSection = document.getElementById('ratesSection');
+            const converterSection = document.getElementById('converterSection');
+
+            if (showRatesBtn && showConverterBtn && ratesSection && converterSection) {
+                showRatesBtn.addEventListener('click', function() {
+                    showRatesBtn.classList.add('active');
+                    showConverterBtn.classList.remove('active');
+                    ratesSection.style.display = 'block';
+                    converterSection.style.display = 'none';
+                });
+                showConverterBtn.addEventListener('click', function() {
+                    showConverterBtn.classList.add('active');
+                    showRatesBtn.classList.remove('active');
+                    ratesSection.style.display = 'none';
+                    converterSection.style.display = 'block';
+                });
+            }
+
+            // ---------- Конвертер валют ----------
+            function updateConverter() {
+                const fromAmount = document.getElementById('fromAmount');
+                const fromCurrency = document.getElementById('fromCurrency');
+                const toCurrency = document.getElementById('toCurrency');
+                const toAmount = document.getElementById('toAmount');
+                const converterRate = document.getElementById('converterRate');
+                if (!fromAmount || !fromCurrency || !toCurrency || !toAmount || !converterRate) return;
+                const fromVal = parseFloat(fromAmount.value) || 0;
+                const fromRate = parseFloat(fromCurrency.value) || 1;
+                const toRate = parseFloat(toCurrency.value) || 1;
+                const result = (fromVal * fromRate) / toRate;
+                toAmount.value = result.toFixed(2);
+                const fromCode = fromCurrency.selectedOptions[0]?.dataset.code || '?';
+                const toCode = toCurrency.selectedOptions[0]?.dataset.code || '?';
+                converterRate.innerText = `1 ${fromCode} = ${(fromRate/toRate).toFixed(4)} ${toCode}`;
+            }
+            const fromAmount = document.getElementById('fromAmount');
+            const fromCurrency = document.getElementById('fromCurrency');
+            const toCurrency = document.getElementById('toCurrency');
+            if (fromAmount) fromAmount.addEventListener('input', updateConverter);
+            if (fromCurrency) fromCurrency.addEventListener('change', updateConverter);
+            if (toCurrency) toCurrency.addEventListener('change', updateConverter);
+            updateConverter();
+
+            // ---------- Калькулятор доставки ----------
+            window.calculateDelivery = function() {
+                const country = document.getElementById('deliveryCountry');
+                const goodsType = document.getElementById('goodsType');
+                const weight = document.getElementById('weight');
+                const volume = document.getElementById('volume');
+                const method = document.getElementById('deliveryMethod');
+                const insurance = document.getElementById('insurance');
+                const calcResult = document.getElementById('calcResult');
+
+                if (!country || !goodsType || !weight || !volume || !method || !insurance || !calcResult) return;
+
+                const countryVal = country.value;
+                const goodsTypeVal = parseFloat(goodsType.value) || 1;
+                const weightVal = parseFloat(weight.value) || 0;
+                const volumeVal = parseFloat(volume.value) || 0;
+                const methodVal = method.value;
+                const insuranceVal = insurance.checked ? 5 : 0;
+
+                let basePrice = 5;
+                if (countryVal === 'tj') basePrice = 6;
+                else if (countryVal === 'kz') basePrice = 4.5;
+                else if (countryVal === 'uz') basePrice = 5.5;
+
+                let methodCoeff = 1;
+                if (methodVal === 'avia') methodCoeff = 2;
+                else if (methodVal === 'rail') methodCoeff = 1.2;
+
+                let total = weightVal * basePrice * goodsTypeVal * methodCoeff + volumeVal * 20 + insuranceVal;
+                calcResult.innerHTML = `💰 Стоимость: ${total.toFixed(2)} $`;
+            };
+
+            // ---------- Настройки (аватар, имя, телефон, страна) ----------
+            window.selectAvatar = function(avatar) {
+                userData.avatar = avatar;
+                localStorage.setItem('userAvatar', avatar);
+                document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
+                if (event.target) event.target.classList.add('selected');
+                if (profileAvatarEl) profileAvatarEl.innerText = avatar;
+                if (settingsAvatarEl) settingsAvatarEl.innerText = avatar;
+            };
+
+            window.saveSettings = function() {
+                const newName = settingsNameEl ? settingsNameEl.value.trim() : '';
+                const newPhone = settingsPhoneEl ? settingsPhoneEl.value.trim() : '';
+                const newCountry = settingsCountryEl ? settingsCountryEl.value : 'ru';
+                if (newName) {
+                    userData.firstName = newName;
+                    localStorage.setItem('userName', newName);
+                }
+                if (newPhone) {
+                    userData.phone = newPhone;
+                    localStorage.setItem('userPhone', newPhone);
+                }
+                userData.country = newCountry;
+                localStorage.setItem('userCountry', newCountry);
+                updateUserUI();
+                alert('Настройки сохранены!');
+                showProfileMenu();
+            };
+
+            // Инициализация
+            renderCurrencyTables();
+            updateUserUI();
+        });
+    </script>
+</body>
+</html>
